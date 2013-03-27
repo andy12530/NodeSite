@@ -3,11 +3,10 @@
  * GET home page.
  */
 
-exports.index = function(req, res) {
-    res.render('index.jade', { title: 'Express 3.0'}); 
-}
+exports.index = function(req, res){
+  res.render('index', { title: 'Express' });
+};
 
 exports.notFound = function(req, res) {
-    //res.writeHead(200);
-    res.status(404).send('the page not found');
+	res.status(404).send('not found the page');
 }

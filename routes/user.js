@@ -10,8 +10,7 @@ exports.login = function(req, res){
 exports.auth = function(req, res, next) {
     console.log('check is login');
     next();
-}
-
+};
 
 exports.register = function(req, res){
     res.send("respond with register page");
@@ -25,6 +24,6 @@ exports.profile = function(req, res){
     res.send("respond with profile page");
 };
 
-exports.listAds = function(req, res){
+exports.showUser = function(req, res){
     res.send("respond with all ads about this user");
 };

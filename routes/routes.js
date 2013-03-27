@@ -3,9 +3,9 @@
  * the routes
  */
 
-var main = require('./index.js'),
-    user = require('./user.js'),
-    category = require('./category.js'),
+var main = require('./index'),
+    user = require('./user'),
+    category = require('./category'),
     ads = require('./ads');
 
 module.exports = function(app) {
@@ -25,7 +25,8 @@ module.exports = function(app) {
     app.get('/user/profile', user.profile);
     app.post('/user/profile', user.profile);
 
-    app.get('/user/ads', user.listAds);
+    app.get('/user/:userId([0-9]+)', user.showUser);
+
 
     /* category manager */
     app.get('/:category', category.listAds);

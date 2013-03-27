@@ -6,7 +6,8 @@
 var express = require('express')
   , routes = require('./routes/routes')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , config = require('./config').config;
 
 var app = express();
 
@@ -18,6 +19,8 @@ app.configure(function(){
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+  app.use(express.cookieParser(config.cookie_secret));
+  app.use(express.session());
   app.use('/static', express.static(path.join(__dirname, 'public')));
 });
 
