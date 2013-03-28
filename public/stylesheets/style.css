@@ -1,8 +1,77 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+#header {
+    width: 940px;
+    margin: 10px auto;
+}
+.logo {
+    float: left;
+}
+.top {
+    margin-left: 200px;
+    height: 50px;
+}
+.top-item {
+    line-height: 50px;
+    margin-top: 10px;
+    border-left: 1px solid #ddd;
 }
 
-a {
-  color: #00B7FF;
+.header-search {
+    padding-left: 30px;
+    float: left;
+}
+
+.header-search button {
+    margin-left: 10px;
+}
+
+.header-right {
+    float: right;
+}
+
+.header-right a {
+    margin-left: 15px;
+}
+
+
+.nav {
+    margin-left: 200px;
+    margin-top: 35px;
+    background-color: #F0F0F0;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    float: none;
+}
+
+.nav ul {
+    margin-bottom: 0;
+}
+
+.nav li {
+    float: left;
+
+}
+
+.nav li:hover {
+    background-color: #DDD;
+}
+
+.nav a {
+    display: inline-block;
+    padding: 8px 40px;
+    font-size: 16px;
+    border-right: 1px solid #ccc;
+}
+
+.page-header {
+    padding-left: 180px;
+}
+
+
+
+
+.bg {
+    text-align: center;
+    padding: 80px 0;
+    background-color: #2A303F;
+    min-height: 240px;
 }

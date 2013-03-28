@@ -20,7 +20,12 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser(config.cookie_secret));
-  app.use(express.session());
+  app.use(express.session(
+    /*secret: config.session_secret
+    store: MemStore({
+      reapInterval: 60000 * 10
+    })*/
+  ));
   app.use('/static', express.static(path.join(__dirname, 'public')));
 });
 

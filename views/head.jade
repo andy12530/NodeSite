@@ -1,0 +1,36 @@
+!!! 5
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    block title
+    link(rel='stylesheet', href='/static/stylesheets/bootstrap.css', media='all')
+    link(rel='stylesheet', href='/static/stylesheets/style.css', media='all')
+    script(src='/static/javascripts/jquery-1.9.1.min.js')
+    script(src='/static/javascripts/bootstrap.js')
+  body
+    #header.header
+      .logo
+        a(href='/')
+          img(src='/static/images/logo.png', alt='NodeExchange', width='180px;')
+      .top.clearfix
+        form.top-item.header-search(action='')
+          input#search(type='text', name='text', placeholder='请输入关键字', style='width: 350px; margin-top: 10px;')
+          button.btn(type='submit')
+            | 搜索
+        .top-item.header-right
+          a.btn.btn-success(href='/register') 注册
+          a.btn.btn-info(href='/login') 登录
+      .nav
+        ul.unstyled.clearfix
+          li
+            a(href='/') 首页
+          li
+            a(href='/create') 发布信息
+          li
+            a(href='#') 分类
+          li
+            a(href='/user/profile') 个人中心
+    .container
+      block content
+      
+      block footer

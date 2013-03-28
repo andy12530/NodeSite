@@ -1,0 +1,39 @@
+extend head
+
+block title
+    title #{title}
+
+block content
+    #content.row
+      .span8
+        .page-header
+          h3.title 注册新帐号
+        form.form-horizontal(method='post', action='/register')
+          if typeof error !== 'undefined'
+            .control-group.error
+              label.control-label
+              .controls
+                span.help-inline #{error}
+          .control-group
+            label.control-label(for='inputPhone') 手机号
+            .controls
+              input#inputPhone(type='text', name='phone', placeholder='13xx xxxx xxxx')
+              span.help-inline 仅支持中国大陆手机号码
+          .control-group
+            label.control-label(for='inputEmail') 邮箱
+            .controls
+              input#inputEmail(type='email', name='email', placeholder='username@example.com')
+              span.help-inline 邮箱会作保密，不会被泄露
+          .control-group
+            label.control-label(for='inputPassword') 密码
+            .controls
+              input#inputPassword(type='password', name='password', placeholder='Password')
+              span.help-inline 密码长度至少为6位
+          .control-group
+            label.control-label(for='inputRepassword') 再次输入密码
+            .controls
+              input#inputRePassword(type='password', name='rePassword', placeholder='Password')
+          .form-actions
+            button.btn.btn-success(type='submit') 创建账号
+            a.btn.btn-info(href='/login', style="margin-left: 20px;") 已有账号？
+      .span4

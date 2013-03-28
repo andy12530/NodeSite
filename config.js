@@ -4,7 +4,8 @@ config
 var mongoskin = require('mongoskin');
 
 exports.config = {
-	cookie_secret: "andy12530hfutsoftware",
+	session_secret: "SESSION_andy12530",
+	cookie_secret: "COOKIE_andy12530",
 	auth_cookie_name: 'nodesite_secret',
 	time_zone: 8,
 	system_email: 'admin@amzbook.com',

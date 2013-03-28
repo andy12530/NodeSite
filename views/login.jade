@@ -1,0 +1,33 @@
+extend head
+
+block title
+    title #{title}
+
+block content
+    #content.row
+      .span8
+        .page-header
+          h3.title 登录到NodeExchange
+        form.form-horizontal(method='post', action='/login')
+          if typeof error !== 'undefined'
+            .control-group.error
+              label.control-label
+              .controls
+                span.help-inline #{error}
+          .control-group
+            label.control-label(for='inputEmail') 邮箱
+            .controls
+              input#inputEmail(type='email', placeholder='username@example.com')
+          .control-group
+            label.control-label(for='inputPassword') 密码
+            .controls
+              input#inputPassword(type='password', placeholder='Password')
+          .control-group
+            span.control-label
+            label.controls.checkbox
+              input#rememberPwd(type='checkbox')
+              | 记住密码
+          .form-actions
+            button.btn.btn-success(type='submit') 登录
+            a.btn.btn-info(href='/forgot', style="margin-left: 20px;") 忘记密码？
+      .span4
