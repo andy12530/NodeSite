@@ -35,12 +35,41 @@
     <!-- content -->
     <div class="container"> 
         <div id="content" class="row">
-            <div class="span12">
-                <div class="bg">
-                    <img src="../public/images/404.png" alt="">
-                </div>
-                
+          <div class="span8">
+            <div class="page-header">
+              <h3 class="title"></h3>
             </div>
+            <form method="post" action="/register" class="form-horizontal">
+              <div class="control-group">
+                <label for="inputPhone" class="control-label">手机号</label>
+                <div class="controls">
+                  <input id="inputPhone" type="text" name="phone" placeholder="13xx xxxx xxxx"/><span class="help-inline">仅支持中国大陆手机号码</span>
+                </div>
+              </div>
+              <div class="control-group">
+                <label for="inputEmail" class="control-label">邮箱</label>
+                <div class="controls">
+                  <input id="inputEmail" type="email" name="email" placeholder="username@example.com"/><span class="help-inline">邮箱会作保密，不会被泄露</span>
+                </div>
+              </div>
+              <div class="control-group">
+                <label for="inputPassword" class="control-label">密码</label>
+                <div class="controls">
+                  <input id="inputPassword" type="password" name="password" placeholder="Password"/><span class="help-inline">密码长度至少为6位</span>
+                </div>
+              </div>
+              <div class="control-group">
+                <label for="inputRepassword" class="control-label">再次输入密码</label>
+                <div class="controls">
+                  <input id="inputRePassword" type="password" name="rePassword" placeholder="Password"/>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-success">创建账号</button><a href="/login" style="margin-left: 20px;" class="btn btn-info">已有账号？</a>
+              </div>
+            </form>
+          </div>
+          <div class="span4"></div>
         </div>
     </div>
     <!-- content end -->

@@ -18,8 +18,12 @@ html(lang='en')
           button.btn(type='submit')
             | 搜索
         .top-item.header-right
-          a.btn.btn-success(href='/register') 注册
-          a.btn.btn-info(href='/login') 登录
+          if typeof userPhone !== 'undefined'
+            a(href='/user/profile') #{userPhone}
+            a.btn.btn-info(href='/logout') logout
+          else
+            a.btn.btn-success(href='/register') 注册
+            a.btn.btn-info(href='/login') 登录
       .nav
         ul.unstyled.clearfix
           li

@@ -8,16 +8,19 @@ block content
       .span8
         .page-header
           h3.title 找回密码
-        form.form-horizontal(method='post', action='/forgot')
-          if typeof error !== 'undefined'
-            .control-group.error
-              label.control-label
+        if typeof success !== 'undefined'
+          p.page-header #{success}
+        else
+          form.form-horizontal(method='post', action='/forgot')
+            if typeof error !== 'undefined'
+              .control-group.error
+                label.control-label
+                .controls
+                  span.help-inline #{error}
+            .control-group
+              label.control-label(for='inputEmail') 注册邮箱
               .controls
-                span.help-inline #{error}
-          .control-group
-            label.control-label(for='inputEmail') 注册邮箱
-            .controls
-              input#inputEmail(type='email', placeholder='username@example.com')
-          .form-actions
-            button.btn.btn-success(type='submit') 取回密码
+                input#inputEmail(type='email', name='email', placeholder='username@example.com')
+            .form-actions
+              button.btn.btn-success(type='submit') 取回密码
       .span4

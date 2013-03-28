@@ -17,15 +17,15 @@ block content
           .control-group
             label.control-label(for='inputEmail') 邮箱
             .controls
-              input#inputEmail(type='email', placeholder='username@example.com')
+              input#inputEmail(type='email', name="email", placeholder='username@example.com')
           .control-group
             label.control-label(for='inputPassword') 密码
             .controls
-              input#inputPassword(type='password', placeholder='Password')
+              input#inputPassword(type='password', placeholder='Password', name="password")
           .control-group
             span.control-label
             label.controls.checkbox
-              input#rememberPwd(type='checkbox')
+              input#rememberPwd(type='checkbox', checked="checked", name="rememberPwd")
               | 记住密码
           .form-actions
             button.btn.btn-success(type='submit') 登录

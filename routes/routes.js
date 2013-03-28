@@ -3,18 +3,19 @@
  * the routes
  */
 
-var main = require('./index'),
+var index = require('./index'),
     user = require('./user'),
     category = require('./category'),
     ads = require('./ads');
 
 module.exports = function(app) {
-    app.get('/', user.auth, main.index);
-
+    app.get('/', user.auth, index.index);
 
     /* user manager */
     app.get('/login', user.login);
     app.post('/login', user.login);
+
+    app.get('/logout', user.logout);
 
     app.get('/register', user.register);
     app.post('/register', user.register);
@@ -29,6 +30,11 @@ module.exports = function(app) {
 
 
     /* category manager */
+    app.get('/category/add', category.addCategory);
+    app.get('/category/edit', category.editCategory);
+    app.get('/category/delete', category.delCategory);
+
+
     app.get('/:category', category.listAds);
 
 
@@ -44,6 +50,6 @@ module.exports = function(app) {
     app.post('/:category/:adId([0-9]+)/edit', ads.editAd);
 
     /* other page show 404 */
-    app.get('*', main.notFound);
+    app.get('*', index.notFound);
 
 }

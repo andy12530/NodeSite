@@ -19,13 +19,18 @@ app.configure(function(){
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(express.cookieParser(config.cookie_secret));
-  app.use(express.session(
-    /*secret: config.session_secret
-    store: MemStore({
-      reapInterval: 60000 * 10
-    })*/
-  ));
+  app.use(express.cookieParser());
+  app.use(express.session({
+    secret: config.session_secret
+  }));
+
+  app.use(function(req, res, next){
+    if (req.session && req.session.user) {
+      res.locals.userPhone = req.session.user.phone;
+    }
+    next();
+  });
+  
   app.use('/static', express.static(path.join(__dirname, 'public')));
 });
 
