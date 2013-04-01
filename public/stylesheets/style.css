@@ -32,13 +32,11 @@
     margin-left: 15px;
 }
 
-
 .nav {
     margin-left: 200px;
     margin-top: 35px;
     background-color: #F0F0F0;
     border: 1px solid #ddd;
-    border-radius: 3px;
     float: none;
 }
 
@@ -68,6 +66,171 @@
 
 
 
+.sidebar {
+    border: 1px solid #e5e5e5;
+}
+
+.sidebar li {
+    line-height: 20px;
+    border-bottom: 1px solid #E5E5E5;
+}
+
+.sidebar li:hover {
+    background-color: whiteSmoke;
+}
+
+.sidebar li:last-child {
+    border-bottom: none;
+}
+
+.sidebar a{
+    padding: 12px 20px;
+    display: block;
+    font-size: 15px;
+}
+
+.sidebar a:hover {
+   text-decoration: none;
+}
+
+.sidebar .icon-chevron-right {
+    float: right;
+    margin-top: 2px;
+    margin-right: -6px;
+    opacity: .25;
+}
+
+.sidebar .active {
+    background-color: #4188D2;
+}
+
+.sidebar .active:hover {
+    background-color: #4188D2;
+}
+
+.sidebar .active a {
+    color: white;
+}
+
+.sidebar .active [class^="icon-"] {
+    background-image: url("../images/glyphicons-halflings-white.png");
+    opacity: 1;
+}
+
+.cat {
+    padding-bottom: 15px;
+    border: 1px solid #E5E5E5;
+}
+
+.cat-item {
+    font-size: 16px;
+    color: white;
+    background-color: #00AA72;
+    padding: 5px 10px;
+    margin: 10px 20px;
+    display: inline-block;
+}
+
+.cat-item:hover {
+    text-decoration: none;
+    color: white;
+}
+
+.cat-item:nth-child(4n) {
+    background-color: #FF5600;
+}
+
+.cat-item:nth-child(4n+1) {
+    background-color: #00AA72;
+}
+
+.cat-item:nth-child(4n+2) {
+    background-color: #349BB9;
+}
+
+.cat-item:nth-child(4n+3) {
+    background-color: #FF9900;
+}
+
+#createForm {
+    display: none;
+}
+
+#changeCat {
+    margin-left: 5px;
+}
+
+#changeCat:hover {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+form .required {
+    margin-right: 5px;
+    display: inline-block;
+    color: #DA5252;
+}
+
+.input-xlarge {
+    width: 400px;
+}
+
+.radio {
+    display: inline-block;
+    width: 40px;
+}
+
+
+
+.post {
+    padding: 0 15px;
+    border: 1px solid #E5E5E5;
+}
+.post-head {
+    margin: 20px 0;
+}
+
+.post-info {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+.post-info span {
+    margin-right: 10px;
+}
+
+.basic-item p {
+    margin-top: 15px;
+}
+
+#phone {
+    font-size: 28px;
+}
+
+.pic {
+    margin: 20px 0;
+}
+.pic-item {
+    margin-top: 15px;
+}
+.pic-item img {
+    max-width: 100%;
+}
+
+
+#sidebar .creater {
+    margin-top: 55px;
+    border: 1px solid #EEE;
+    padding: 10px 5px;
+}
+#sidebar .title {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #CCC;
+    margin-bottom: 10px;
+}
+#sidebar .post-item {
+    margin-bottom: 10px;
+}
 
 .bg {
     text-align: center;

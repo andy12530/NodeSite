@@ -1,0 +1,31 @@
+extend head
+
+block title
+    title #{title}
+
+block script
+  script(src='/static/javascripts/category.js')
+  script(src='/static/javascripts/json2.js')
+
+block content
+    #content.row
+      .span8
+        .page-header
+          h3.title 添加一级类目
+        form.form-horizontal(method='post', action='/category/addFirst')
+          if typeof info !== 'undefined'
+            .control-group.error
+              label.control-label
+              .controls
+                span.help-inline #{info}
+          .control-group
+            label.control-label(for='categoryName') 分类目录
+            .controls
+              input#categoryName(type='text', name='category', placeholder='中文目录名称')
+          .control-group
+            label.control-label(for='categoryEnglish') 英文名称
+            .controls
+              input#categoryEnglish(type='text', name='categoryEnglish', placeholder='英文或者拼音名称')
+          .form-actions
+            button.btn.btn-success(type='submit') 添加
+      .span4

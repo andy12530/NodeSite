@@ -1,0 +1,66 @@
+extend head
+
+block title
+    title #{postData.title}
+
+block content
+    #content.row
+      #ads.span9
+        ul.breadcrumb
+          li
+            a(href='/') 首页
+            span.divider >>
+          li
+            a(href='/#{firstCategory.categoryEnglish}') #{firstCategory.category}
+            span.divider >>
+          li.active
+            a(href='#{firstCategory.categoryEnglish}') #{secondCategory.category}
+        .post
+          .post-head
+            h4 #{postData.title}
+            .post-info
+              span#createTime
+                | 发布时间：
+                span 14:20 08-03
+              span#viewCount
+                | 浏览次数：
+                span 150
+              if postData.isAuthor
+                span#edit
+                  a(href='/#{firstCategory.categoryEnglish}/#{postData.postId}/edit') 编辑
+          .post-body
+            .body-basic
+              p.basic-item
+                | 发布人：
+                span#contact #{postData.contact}
+              p.basic-item
+                | 地点：
+                span#address #{postData.address}
+              p.basic-item
+                | 联系方式：
+                span#phone #{postData.phone}
+              each metaVal, metaKey in secondCategory.metas
+                - var foo = metaKey
+                p.basic-item
+                  | #{metaVal[0]}：
+                  //- <span id="#{foo}">数值啊 #{metaVal[1]}</span>
+
+              .basic-item
+                | 详细介绍：
+                p#detail #{postData.detail}
+              #pic
+                .pic-item
+                  img(src='/static/images/logo.png', alt='')
+                .pic-item
+                  img(src='/static/images/logo.png', alt='')
+                .pic-item
+                  img(src='/static/images/logo.png', alt='')
+      #sidebar.span3
+        .creater
+          .title
+            strong 该用户的其它主题
+          .posts
+            each relateAd in relateAds
+              .post-item
+                a(href='#{relateAd.url}') #{relateAd.title}
+

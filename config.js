@@ -17,4 +17,4 @@ exports.config = {
 	}
 };
 
-exports.database = mongoskin.db("localhost/testdb", {safe: true});
+exports.database = mongoskin.db("localhost/nodejs", {safe: true});

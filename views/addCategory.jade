@@ -1,0 +1,57 @@
+extend head
+
+block title
+    title #{title}
+
+block script
+  script(src='/static/javascripts/category.js')
+  script(src='/static/javascripts/json2.js')
+
+block content
+    #content.row
+      .span8
+        .page-header
+          h3.title 添加二级类目
+        form.form-horizontal(method='post', action='/category/addSecond')
+          if typeof info !== 'undefined'
+            .control-group.error
+              label.control-label
+              .controls
+                span.help-inline #{info}
+          .control-group
+            label.control-label(for='categoryName') 所属一级类目
+            .controls
+              select#firstCatId(name='firstCatId')
+                each item in items
+                  option(value= "#{item._id}") #{item.category}
+          .control-group
+            label.control-label(for='categoryName') 分类目录
+            .controls
+              input#categoryName(type='text', name='category', placeholder='中文目录名称')
+          .control-group
+            label.control-label(for='categoryEnglish') 英文名称
+            .controls
+              input#categoryEnglish(type='text', name='categoryEnglish', placeholder='英文或者拼音名称')
+
+          hr
+          .control-group
+            span.control-label 添加的属性
+            .controls
+              p#showMeta
+          input#metas(type="hidden", name="metas")
+          .control-group
+            label.control-label(for='metaName') 属性中文名
+            .controls
+              input#metaName(type='text', placeholder='中文名称，如“二手手机”')
+          .control-group
+            label.control-label(for='metaNameEnglish') 属性英文名
+            .controls
+              input#metaNameEnglish(type='text', placeholder='英文或者拼音名称，如“ershoushouji”')
+          .control-group
+            label.control-label(for='property') 单位
+            .controls
+              input#property(type='text', placeholder='属性的单位，如“元，公里，平方米”，没有请留空')
+          button#addMetaBtn.btn.btn-info(type="button", style="margin-left: 180px;") 增加新属性
+          .form-actions
+            button.btn.btn-success(type='submit') 添加
+      .span4

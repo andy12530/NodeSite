@@ -1,0 +1,72 @@
+extend head
+
+block title
+    title #{title}
+
+block script
+    script(src='/static/javascripts/create.js')
+
+block content
+    #content.row
+        #firstCat.span4
+          ul.sidebar.unstyled
+            each item in result
+              li
+                a(href="", data-categoryEnglish="#{item.categoryEnglish}", data-firstCatId="#{item._id}" ) #{item.category}
+
+        #secondCat.span8
+
+    #createForm.row
+      .span12
+        .page-header
+          h4.title 发布新信息
+        form.form-horizontal(action='/create', method='post')
+          input#firstCatId(type="hidden", name="firstCatId")
+          input#secondCatId(type="hidden", name="secondCatId")
+
+          .control-group
+            label.control-label()  分类
+            .controls
+              input#catInfo(type='text', disabled='disabled') 
+              a#changeCat 更改分类
+          .control-group
+            label.control-label 供需
+            .controls
+              label.radio
+                input(type='radio', name='adType', value='sell', checked='checked')
+                | 转让
+              label.radio
+                input(type='radio', name='adType', value='buy')
+                | 求购
+          .control-group
+            label.control-label(for='title', required='required') 
+              span.required *
+              | 标题
+            .controls
+              input#title.input-xlarge(type='text', name='title', required='required')
+          .control-group
+            label.control-label(for='address', required='required')
+              span.required *
+              | 地点
+            .controls
+              input#address.input-xlarge(type='text', name='address', required='required')
+          .control-group
+            label.control-label(for='contact', required='required') 
+              span.required *
+              | 联系人
+            .controls
+              input#contact.input-xlarge(type='text', name='contact', required='required')
+          
+          #metaData
+
+          .control-group
+            label.control-label(for='detail') 
+              span.required *
+              | 详情
+            .controls
+              textarea.input-xlarge(rows='6', name='detail', required='required')
+            label.control-label(for='files') 上传图片
+            .controls
+              input(type='file', multiple="multiple", name='files')
+          .form-actions
+            button.btn.btn-success(type='submit') 发布

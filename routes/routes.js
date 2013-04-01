@@ -6,7 +6,8 @@
 var index = require('./index'),
     user = require('./user'),
     category = require('./category'),
-    ads = require('./ads');
+    ads = require('./ads'),
+    ajaxHandler = require('./ajaxHandler');
 
 module.exports = function(app) {
     app.get('/', user.auth, index.index);
@@ -28,26 +29,34 @@ module.exports = function(app) {
 
     app.get('/user/:userId([0-9]+)', user.showUser);
 
+    /*create ads */
+    app.get('/create', user.auth, ads.create);
+    app.post('/:create', ads.create);
 
+    
     /* category manager */
-    app.get('/category/add', category.addCategory);
-    app.get('/category/edit', category.editCategory);
-    app.get('/category/delete', category.delCategory);
+    app.get('/category/addFirst', category.addFirstCategory);
+    app.post('/category/addFirst', category.addFirstCategory);
 
+    // category更多的是在修改二级类目
+    app.get('/category/addSecond', category.addCategory);
+    app.post('/category/addSecond', category.addCategory);
+
+    app.get('/category/edit', category.editCategory);
+    app.get('/category/delete', category.delCategory);   
+
+    /* ajax  handler*/
+    app.get('/ajax/secondCat', ajaxHandler.secondCat);
+    //app.get('/ajax/relateAds', ajaxHandler.relateAds);
 
     app.get('/:category', category.listAds);
 
-
-    /*create ads */
-    app.get('/create', ads.create);
-    app.post('/:create', ads.create);
-
     /* ads manager */
-    app.get('/:category/:adId([0-9]+)', ads.showAd);
-    app.get('/:category/:adId([0-9]+)/delete', ads.deleteAd);
+    app.get('/:category/:postId([0-9]+)', user.auth, ads.showAd);
+    app.get('/:category/:postId([0-9]+)/delete', ads.deleteAd);
 
-    app.get('/:category/:adId([0-9]+)/edit', ads.editAd);
-    app.post('/:category/:adId([0-9]+)/edit', ads.editAd);
+    app.get('/:category/:postId([0-9]+)/edit', ads.editAd);
+    app.post('/:category/:postId([0-9]+)/edit', ads.editAd);
 
     /* other page show 404 */
     app.get('*', index.notFound);

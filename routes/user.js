@@ -38,14 +38,11 @@ exports.login = function(req, res){
         db.collection('user').findOne({email: email, password: truePwd}, function(err, result) {
             if (!err && result) {
                 req.session.user = result;
-
-                //res.locals.userPhone = result.phone;
-
                 var cookieHash = crypto.createHash('md5').update(result.phone + result.email).digest('base64');
-
-                res.cookie('secure', cookieHash, {expires: new Date(Date.now() + 259200), httpOnly: false});
-                res.cookie('email', email, {expires: new Date(Date.now() + 259200), httpOnly: false});
-                //auto login in 3 days
+                res.cookie('secure', cookieHash, {path: '/', httpOnly: true});
+                res.cookie('email', email, {path: '/', httpOnly: true});
+                
+                req.session.cookie.expires = new Date(Date.now() + 432000); //auto login in 5 days 
                 return res.redirect("/");
             } else {
                 res.render('login', {title: "登录到NodeExchange账户", error: "账号或者密码错误"});
@@ -55,29 +52,26 @@ exports.login = function(req, res){
 };
 
 exports.auth = function(req, res, next) {
-    if (req.session.user) {
-        return next();
-
+     if (req.session.user) {
+        res.locals.userPhone = req.session.user.phone;
+        next();
     } else {
-        console.log("b");
         if (req.cookies.email && req.cookies.secure) {
-            console.log("c");
             var email = req.cookies.email,
                 hashCookie = req.cookies.secure;
-            db.collection('user').findOne({email: email}, function(err, result) {
-                if (!err && result) {
-                    console.log("d");
-                    var trueHashCookie = crypto.createHash('md5').update(result.phone + result.email).digest('base64');
-                    if (trueHashCookie == hashCookie) {
-                        req.session.user = result;
-                        //res.locals.userPhone = result.phone;
+                db.collection('user').findOne({email: email}, function(err, result) {
+                    if (!err && result) {
+                        var trueHashCookie = crypto.createHash('md5').update(result.phone + result.email).digest('base64');
+                        if (trueHashCookie == hashCookie) {
+                            req.session.user = result;
+                            res.locals.userPhone = req.session.user.phone;
+                            req.session.cookie.expires = new Date(Date.now() + 432000); //auto login in 5 days 
+                        }
                     }
-                }
-            });
-
+                });
         }
+        next();
     }
-    return next();
 };
 
 exports.register = function(req, res){
@@ -116,7 +110,7 @@ exports.register = function(req, res){
                 db.collection('user').findOne({phone: phone}, function(err, phone_result) {
                     if (phone_result == null) { //手机号未被注册
                         var date = new Date(),
-                            truePwd = crypto.createHash('sha1').update(pwd).digest('base64'),
+                            truePwd = crypto.createHash('sha1').update(pwd).digest('base64');
                             cookieHash = crypto.createHash('md5').update(phone + email).digest('base64');
 
                         db.collection('user').insert({
@@ -127,10 +121,10 @@ exports.register = function(req, res){
                         }, function(err, user) {
                             if (!err && user) {
                                 req.session.user = user[0];
+                                res.cookie('secure', cookieHash, {path: '/', httpOnly: true});
+                                res.cookie('email', email, {path: '/', httpOnly: true});
+                                req.session.cookie.expires = new Date(Date.now() + 432000);
 
-                                res.cookie('secure', cookieHash, {expires: new Date(Date.now() + 259200), httpOnly: false});
-                                res.cookie('email', email, {expires: new Date(Date.now() + 259200), httpOnly: false});
-                                //auto login in 3 days
                                 return res.redirect('/');
                             } else {
                                 renderObj.error = "注册失败，数据库原因";  
