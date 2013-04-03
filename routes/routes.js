@@ -31,7 +31,7 @@ module.exports = function(app) {
 
     /*create ads */
     app.get('/create', user.auth, ads.create);
-    app.post('/:create', ads.create);
+    app.post('/create', ads.create);
 
     
     /* category manager */
@@ -47,9 +47,8 @@ module.exports = function(app) {
 
     /* ajax  handler*/
     app.get('/ajax/secondCat', ajaxHandler.secondCat);
-    //app.get('/ajax/relateAds', ajaxHandler.relateAds);
 
-    app.get('/:category', category.listAds);
+    app.get('/:category', ads.listAds);
 
     /* ads manager */
     app.get('/:category/:postId([0-9]+)', user.auth, ads.showAd);

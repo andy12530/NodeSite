@@ -1,5 +1,8 @@
 extend head
 
+block script
+  
+
 block title
     title #{postData.title}
 
@@ -14,7 +17,7 @@ block content
             a(href='/#{firstCategory.categoryEnglish}') #{firstCategory.category}
             span.divider >>
           li.active
-            a(href='#{firstCategory.categoryEnglish}') #{secondCategory.category}
+            a(href='/#{secondCategory.categoryEnglish}') #{secondCategory.category}
         .post
           .post-head
             h4 #{postData.title}
@@ -40,11 +43,9 @@ block content
                 | 联系方式：
                 span#phone #{postData.phone}
               each metaVal, metaKey in secondCategory.metas
-                - var foo = metaKey
                 p.basic-item
                   | #{metaVal[0]}：
-                  //- <span id="#{foo}">数值啊 #{metaVal[1]}</span>
-
+                  <span id="#{metaKey}">#{postData[metaKey]} #{metaVal[1]}</span>
               .basic-item
                 | 详细介绍：
                 p#detail #{postData.detail}

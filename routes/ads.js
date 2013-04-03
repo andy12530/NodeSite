@@ -3,6 +3,7 @@
  */
 var configFile = require('../config');
 var db = configFile.database;
+var dateFormat = require('dateformat');
 var _ = require('underscore');
 
 exports.create = function(req, res) {
@@ -99,10 +100,12 @@ exports.showAd = function(req, res) {
                             //相关帖子
                             // to 优化和删除 当前的帖子，限制为5条以内
                             db.collection('post').find({
-                                'userId': postData.userId
+                                'userId': postData.userId,
+                                '_id': {
+                                    "$ne": postData._id
+                                }
                             }).limit(5).toArray(function(err, relateAds) {
                                 if(!err && relateAds) {
-                                    console.log(relateAds);
                                     var renderObj = {
                                         postData: postData,
                                         firstCategory: result[0],
@@ -127,11 +130,79 @@ exports.showAd = function(req, res) {
 };
 
 exports.deleteAd = function(req, res) {
-    res.send('delete a ads');
+    if(req.method == "GET") {
+        var postId = req.params.postId;
+        db.collection('post').remove({postId: postId}, function(err, result) {
+            console.log('删除成功');
+        });
+    }
 };
 
 exports.editAd = function(req, res) {
-    res.send('edit a ads');
+    var postId = req.params.postId;
+    /*db.collection('post').findOne({postId: postId}, function(err, result) {
+        if (!err && result) {
+            var postData = result;
+            if (req.session.user && req.session.user._id == result.userId) {
+                db.collection('category').find({deep: 'first'}).toArray(function(err, result) {
+                    if(!err && result) {
+                        var renderObj = {
+                            isEdit: true,
+                            postData: postData,
+                            result: result
+                        }
+                        console.log(result);
+                        res.render('create', renderObj);
+                    } 
+                });
+            }
+        }
+        
+    });*/
 };
 
+exports.listAds = function(req, res) {
+    var category = req.params.category;
+    db.collection('category').findOne({'categoryEnglish': category}, function(err, result) {
+        if (!err && result) {
+            var query = {},
+                relateCatQuery = {};
 
+            var categoryId = result._id +"";
+
+            if (result.deep == 'first') {
+                query.firstCatId = categoryId;
+                relateCatQuery.firstCatId = categoryId;
+            } else {
+                query.secondCatId = categoryId;
+                relateCatQuery.firstCatId = result.firstCatId +"";
+            }
+
+            db.collection('post').find(query).limit(200).toArray(function(err, ads) {
+                if (!err && ads) {
+                    ads.forEach(function(item) {
+                        item.createTime = dateFormat(item.createTime, 'mm月dd HH:MM');
+                    });
+                    db.collection('category').find(relateCatQuery).toArray(function(err, relateCats) {
+                        if(!err) {
+                            var renderObj = {
+                                title: result.category,
+                                ads: ads,
+                                relateCats: relateCats || null
+                            }
+                        }
+                        console.log(renderObj);
+                        return res.render('category', renderObj);
+
+                    });
+                }
+
+            });
+
+        } else {
+            //404页面
+            next();
+        }
+    })
+
+};

@@ -32,7 +32,7 @@
     margin-left: 15px;
 }
 
-.nav {
+#header .nav {
     margin-left: 200px;
     margin-top: 35px;
     background-color: #F0F0F0;
@@ -40,20 +40,20 @@
     float: none;
 }
 
-.nav ul {
+#header .nav ul {
     margin-bottom: 0;
 }
 
-.nav li {
+#header .nav li {
     float: left;
 
 }
 
-.nav li:hover {
+#header .nav li:hover {
     background-color: #DDD;
 }
 
-.nav a {
+#header .nav a {
     display: inline-block;
     padding: 8px 40px;
     font-size: 16px;
@@ -181,6 +181,35 @@ form .required {
 }
 
 
+// category
+
+li.list-item {
+    padding: 5px 10px 0 0;
+    border-bottom: 1px solid #E5E5E5;
+}
+
+.list-content {
+    float: left;
+}
+.list-content p {
+    margin-bottom: 4px;
+}
+.list-content .item-title {
+    font-size: 16px;
+}
+.list-content .item-meta {
+    color: #888;
+}
+.list-date {
+    float: right;
+    margin-top: 20px;
+}
+.filters {
+    margin-top: 12px;
+}
+.filters p {
+    margin-bottom: 5px;
+}
 
 .post {
     padding: 0 15px;

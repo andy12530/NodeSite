@@ -1,0 +1,42 @@
+extend head
+
+block title
+  title #{title}
+
+block script
+  script(src='/static/javascripts/categoryPage.js')
+
+block content
+    #content.row
+      #ads.span9
+        ul.nav.nav-tabs
+          li#filte-all.active
+            a(href='#') 全部
+          li#filter-sell
+            a(href='#') 转让
+          li#filter-buy
+            a(href='#') 求购
+        .content
+          style 
+            li.list-item {
+                padding: 5px 10px 5px 0;
+                border-bottom: 1px solid #E5E5E5;
+            }
+          ul.ads.unstyled
+            each ad in ads
+              li(class="list-item clearfix #{ad.adType}")
+                  .list-content
+                    p.item-title
+                      a(href='#{ad.url}')
+                        | #{ad.title}
+                    p.item-meta #{ad.address}
+                    p.item-meta 这是一些meta信息
+                  .list-date #{ad.createTime}
+      #sidebar.span3
+        .filters
+          .title
+            strong 相关分类
+          .categorys
+            each relateCat in relateCats
+              p
+                a(href="/#{relateCat.categoryEnglish}") #{relateCat.category}

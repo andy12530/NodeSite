@@ -101,7 +101,3 @@ exports.delCategory = function(req, res) {
 		
 	}
 };
-
-exports.listAds = function(req, res){
-    res.send("respond with all ads on  this category");
-};
