@@ -48,7 +48,8 @@ block content
                   <span id="#{metaKey}">#{postData[metaKey]} #{metaVal[1]}</span>
               .basic-item
                 | 详细介绍：
-                p#detail #{postData.detail}
+                #detail
+                  #{postData.detail}
               #pic
                 .pic-item
                   img(src='/static/images/logo.png', alt='')

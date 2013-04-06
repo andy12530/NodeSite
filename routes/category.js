@@ -21,7 +21,6 @@ exports.addFirstCategory = function(req, res) {
 						categoryEnglish: categoryEnglish,
 						deep: 'first'
 					}, function(err, result) {
-						console.log(result);
 						res.render('addFirstCategory', {title: '添加一级分类目录', info: '分类目录添加成功'});
 					});
 				} else {

@@ -4,6 +4,7 @@
 }
 .logo {
     float: left;
+    width: 180px;
 }
 .top {
     margin-left: 200px;
@@ -232,7 +233,7 @@ li.list-item {
     margin-top: 15px;
 }
 
-#phone {
+#ads #phone {
     font-size: 28px;
 }
 
@@ -260,6 +261,19 @@ li.list-item {
 #sidebar .post-item {
     margin-bottom: 10px;
 }
+
+/* profile */
+
+#aside ul {
+    border: 1px solid #ddd;
+    padding-bottom: 10px;
+} 
+
+#aside .nav-list .nav-header, #aside .nav-list > li > a {
+    font-size: 14px;
+    padding: 8px 15px;
+}
+
 
 .bg {
     text-align: center;

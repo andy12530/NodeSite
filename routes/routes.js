@@ -24,14 +24,16 @@ module.exports = function(app) {
     app.get('/forgot', user.forgot);
     app.post('/forgot', user.forgot);
 
-    app.get('/user/profile', user.profile);
-    app.post('/user/profile', user.profile);
+    app.get('/user/profile', user.auth, user.profile);
+    app.get('/user/password', user.auth, user.password);
+    app.post('/user/password', user.auth, user.password);
+
 
     app.get('/user/:userId([0-9]+)', user.showUser);
 
     /*create ads */
     app.get('/create', user.auth, ads.create);
-    app.post('/create', ads.create);
+    app.post('/create', user.auth, ads.create);
 
     
     /* category manager */
@@ -52,10 +54,10 @@ module.exports = function(app) {
 
     /* ads manager */
     app.get('/:category/:postId([0-9]+)', user.auth, ads.showAd);
-    app.get('/:category/:postId([0-9]+)/delete', ads.deleteAd);
+    app.get('/:category/:postId([0-9]+)/delete', user.auth, ads.deleteAd);
 
-    app.get('/:category/:postId([0-9]+)/edit', ads.editAd);
-    app.post('/:category/:postId([0-9]+)/edit', ads.editAd);
+    app.get('/:category/:postId([0-9]+)/edit', user.auth, ads.editAd);
+    app.post('/:category/:postId([0-9]+)/edit', user.auth, ads.editAd);
 
     /* other page show 404 */
     app.get('*', index.notFound);

@@ -1,0 +1,43 @@
+extend head
+
+block title
+  title #{title}
+
+block content
+  .row
+    #aside.span3
+      ul.nav.nav-list
+        li.nav-header 信息管理
+        li
+          a(href='/user/profile') 发布的信息
+        li
+          a(href='#') 收藏的信息
+        li.divider
+        li.nav-header 账户管理
+        li.active
+          a(href='/user/password') 账户资料
+    #content.span9
+      if typeof info !== 'undefined'
+        .alert.alert-error
+            button.close(type='button', data-dismiss='alert') ×
+            strong #{info}
+
+      form.form-horizontal(method='post', action='/user/password', style="margin-top: 20px;")
+        .control-group
+          label.control-label(for='inputEmail') 邮箱
+          .controls
+            input#inputEmail(type='email', name='email', disabled='disabled', value='andy12530@gmail.com')
+        .control-group
+          label.control-label(for='oldPassword') 原始密码
+          .controls
+            input#oldPassword(type='password', placeholder='Password', name='oldPassword')
+        .control-group
+          label.control-label(for='newPassword') 新密码
+          .controls
+            input#newPassword(type='password', placeholder='Password', name='newPassword')
+        .control-group
+          label.control-label(for='rePassword') 重复密码
+          .controls
+            input#rePassword(type='password', placeholder='Password', name='rePassword')
+        .form-actions
+          button.btn.btn-success(type='submit') 修改

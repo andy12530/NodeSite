@@ -1,0 +1,64 @@
+extend head
+
+block title
+  title #{title}
+
+block script 
+  script(src='/static/javascripts/bootstrap.js')
+  script(src='/static/javascripts/profile.js')
+
+block content
+  .row
+    #aside.span3
+      ul.nav.nav-list
+        li.nav-header 信息管理
+        li.active
+          a(href='/user/profile') 发布的信息
+        li
+          a(href='#') 收藏的信息
+        li.divider
+        li.nav-header 账户管理
+        li
+          a(href='/user/password') 账户资料
+    #content.span9
+      #alert.alert(style="display: none;")
+        button.close(type='button', data-dismiss='alert') ×
+        strong 删除失败！
+      .tabbable
+        ul.nav.nav-tabs
+          li.active
+            a(href='#tab1', data-toggle='tab') 已发布
+          li
+            a(href='#tab2', data-toggle='tab') 已删除
+        .tab-content
+          #tab1.tab-pane.active
+            ul.unstyled
+              style
+                li.list-item {
+                padding: 5px 10px;
+                border-bottom: 1px solid #EEE;
+                }
+              each ad in publicAds
+                li(class="list-item clearfix #{ad.adType}")
+                  .list-content
+                    p.item-title
+                      a(href='#{ad.url}')
+                        | #{ad.title}
+                    p.item-meta #{ad.address}
+                    p.item-meta 
+                      <a class="btn btn-mini", href="#{ad.url}/edit", style="margin-right: 10px">编辑</a>
+                      <a class="btn btn-mini btn-danger", href="#{ad.url}/delete" >删除</a>
+                  .list-date #{ad.createTime}              
+          #tab2.tab-pane
+            ul.unstyled
+              each ad in deleteAds
+                li(class="list-item clearfix #{ad.adType}")
+                  .list-content
+                    p.item-title
+                      a(href='#{ad.url}')
+                        | #{ad.title}
+                    p.item-meta #{ad.address}
+                    
+                  .list-date #{ad.createTime}        
+
+

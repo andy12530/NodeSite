@@ -5,6 +5,8 @@ var configFile = require('../config');
 var db = configFile.database;
 var dateFormat = require('dateformat');
 var _ = require('underscore');
+var pagedown = require("pagedown");
+var safeConverter = pagedown.getSanitizingConverter();
 
 exports.create = function(req, res) {
     if (req.method == 'GET') {
@@ -15,12 +17,12 @@ exports.create = function(req, res) {
         db.collection('postId').find().toArray(function(err, result) {
             console.log(result);
         })*/
-
+        
         db.collection('category').find({deep: 'first'}).toArray(function(err, result) {
             if(!err && result) {
                 res.render('create', {title: '发布新信息', result: result});
             } 
-        });    
+        });
     } else {
         if (! req.session.user) {
             return res.redirect('/login');
@@ -47,10 +49,11 @@ exports.create = function(req, res) {
         }
 
         _.extend(baseObj, req.body);
-        
+
         db.collection('category').findOne({_id:db.ObjectID.createFromHexString(secondCatId) }, function(err, result) {
             if (!err, result) {
                 var secondCatData = result;
+
                 db.collection('postId').findAndModify({"name":"post"}, {}, {$inc:{'id':1}}, function(err, result) {
                     if(!err || result) {
                         baseObj.postId = result.id + ""; //mongodb需要转换为int才能查询
@@ -65,6 +68,7 @@ exports.create = function(req, res) {
 
                    } else {
                         console.log('mongoDB 没有从postID中拿到ID');
+                        next();
                    } 
                 });  
             } else {
@@ -86,6 +90,8 @@ exports.showAd = function(req, res) {
                 if (req.session.user && req.session.user._id == postData.userId) {
                     postData.isAuthor = true;
                 }
+                postData.detail = safeConverter.makeHtml(postData.detail);
+                console.log(postData.detail);
                 db.collection('category').find({
                     '_id': {
                         "$in" : [
@@ -112,6 +118,12 @@ exports.showAd = function(req, res) {
                                         secondCategory: result[1],
                                         relateAds: relateAds || null
                                     }
+
+                                    //用户已经删除的帖子直接采用404
+                                    if (postData.status == 'delete') {
+                                        res.status(404);
+                                    }
+
                                     res.render('ad', renderObj);
                                 }
                             });
@@ -132,33 +144,92 @@ exports.showAd = function(req, res) {
 exports.deleteAd = function(req, res) {
     if(req.method == "GET") {
         var postId = req.params.postId;
-        db.collection('post').remove({postId: postId}, function(err, result) {
-            console.log('删除成功');
+        db.collection('post').update({postId: postId}, {$set: {status: 'delete'}}, function(err, result) {
+            var renderObj = {}
+            if (!err) {
+                renderObj.status = 'success';
+            } else {
+                renderObj.status = 'fail';
+            }
+            renderObj.postId = postId;
+
+            return res.json(renderObj);
         });
     }
 };
 
 exports.editAd = function(req, res) {
     var postId = req.params.postId;
-    /*db.collection('post').findOne({postId: postId}, function(err, result) {
-        if (!err && result) {
-            var postData = result;
-            if (req.session.user && req.session.user._id == result.userId) {
-                db.collection('category').find({deep: 'first'}).toArray(function(err, result) {
-                    if(!err && result) {
-                        var renderObj = {
-                            isEdit: true,
-                            postData: postData,
-                            result: result
-                        }
-                        console.log(result);
-                        res.render('create', renderObj);
-                    } 
-                });
-            }
+    var user = req.session.user;
+    if (req.method == "GET") {
+        if (user) {
+            db.collection('post').findOne({postId: postId}, function(err, result) {
+                var postData = result;
+                if (postData.userId == user._id) {
+                    //编辑帖子
+                    var secondCatId = postData.secondCatId
+                    db.collection('category').findOne({_id: db.ObjectID.createFromHexString(secondCatId)}, function(err, result) {
+                        if(!err && result) {
+                            result.metas = JSON.parse(result.metas);
+
+                            var renderObj = {
+                                title: postData.title,
+                                postData: postData,
+                                categoryinfo: result
+                            }
+                            console.log(renderObj);
+                            res.render('edit', renderObj);
+                        } 
+                    });
+                } else {
+                    return res.redirect('/'+postData.url); 
+                }
+            });
+        } else {
+            res.redirect('/login');
         }
-        
-    });*/
+    } else {
+        if (user) {
+            //post 
+            var title = req.body.title,
+                address = req.body.address,
+                contact = req.body.contact,
+                detail = req.body.detail,
+                postType = req.body.adType;
+
+            if (!title || !address || !contact || !detail || !postType) {
+                return res.send('表单某一项丢失');
+            }
+
+
+            var date = new Date();
+            var baseObj = {
+                updateTime: date.getTime(),
+                phone: req.session.user.phone,
+                userId: req.session.user._id,
+                status: 'ok',
+            }
+
+            _.extend(baseObj, req.body);
+
+            db.collection('post').findOne({postId: postId}, function(err, result) {
+                if (!err && result && result.userId == user._id) {
+                    var id = result._id,
+                        url = result.url;
+                    db.collection('post').update({_id: id}, {$set: baseObj}, function(err, rs) {
+                        if (!err, rs) {
+                            return res.redirect(url)
+                        }
+                    })
+
+                } else {
+                    return res.send('无权限编辑此帖子');
+                }
+            });
+        } else {
+            res.redirect('/login');
+        }
+    }
 };
 
 exports.listAds = function(req, res) {
@@ -178,11 +249,13 @@ exports.listAds = function(req, res) {
                 relateCatQuery.firstCatId = result.firstCatId +"";
             }
 
+            query.status = 'ok';
             db.collection('post').find(query).limit(200).toArray(function(err, ads) {
                 if (!err && ads) {
                     ads.forEach(function(item) {
                         item.createTime = dateFormat(item.createTime, 'mm月dd HH:MM');
                     });
+
                     db.collection('category').find(relateCatQuery).toArray(function(err, relateCats) {
                         if(!err) {
                             var renderObj = {
@@ -191,7 +264,6 @@ exports.listAds = function(req, res) {
                                 relateCats: relateCats || null
                             }
                         }
-                        console.log(renderObj);
                         return res.render('category', renderObj);
 
                     });
@@ -203,6 +275,5 @@ exports.listAds = function(req, res) {
             //404页面
             next();
         }
-    })
-
+    });
 };

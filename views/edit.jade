@@ -1,0 +1,107 @@
+extend head
+
+block title
+      title #{title}
+
+block script
+  script(type='text/javascript', src='/static/javascripts/editor/Markdown.Converter.js')
+  style.flashcontrol(style='display: none;', type='text/css')
+    /*FlashControl*/object[type$="x-shockwave-flash"]:not([classid]),object[type$="futuresplash"]:not([classid]),embed[type$="x-shockwave-flash"],embed[type$="futuresplash"]{display:none !important}
+  style(type='text/css')
+  script(type='text/javascript', src='/static/javascripts/editor/Markdown.Sanitizer.js')
+  script(type='text/javascript', src='/static/javascripts/editor/Markdown.Editor.js')
+  script
+      $(function() {
+        (function () {
+        var converter1 = Markdown.getSanitizingConverter();
+        converter1.hooks.chain("preBlockGamut", function (text, rbg) {
+        return text.replace(/^ {0,3}""" *\\n((?:.*?\n)+?) {0,3}""" *$/gm, function (whole, inner) {
+        return "<blockquote>" + rbg(inner) + "</blockquote>\\n";
+        });
+        });
+        var editor1 = new Markdown.Editor(converter1);
+        editor1.run();
+        })();
+      });
+      
+
+block content
+    .row
+      .span12
+        .page-header
+          h4.title 发布新信息
+        form.form-horizontal(action='#{postData.url}/edit', method='post')
+          .control-group
+            label.control-label 分类
+            .controls
+              input#catInfo(type='text', disabled='disabled', value="#{categoryinfo.category}") 
+          .control-group
+            label.control-label 供需
+            .controls
+              if postData.adType == 'sell'
+                label.radio
+                  input(type='radio', name='adType', value='sell', checked='checked')
+                  | 转让
+                label.radio
+                  input(type='radio', name='adType', value='buy')
+                  | 求购
+              else 
+                label.radio
+                  input(type='radio', name='adType', value='sell')
+                  | 转让
+                label.radio
+                  input(type='radio', name='adType', value='buy', checked='checked')
+                  | 求购
+
+          .control-group
+            label.control-label(for='title', required='required') 
+              span.required *
+              | 标题
+            .controls
+              input#title.input-xlarge(type='text', name='title', required='required', value="#{postData.title}")
+          .control-group
+            label.control-label(for='address', required='required')
+              span.required *
+              | 地点
+            .controls
+              input#address.input-xlarge(type='text', name='address', required='required', value="#{postData.address}")
+          .control-group
+            label.control-label(for='contact', required='required') 
+              span.required *
+              | 联系人
+            .controls
+              input#contact.input-xlarge(type='text', name='contact', required='required', value="#{postData.contact}")
+          .control-group
+            label.control-label(for='phone', required='required') 
+              span.required *
+              | 手机号
+            .controls
+              input#phone.input-xlarge(type='text', name='phone', required='required', value="#{postData.phone}")
+          
+          each metaVal, metaKey in categoryinfo.metas
+            .control-group
+              label.control-label(for='#{metaKey}') #{metaVal[0]}
+              .controls
+                if metaVal[1]
+                  .input-prepend
+                    <input id="#{metaKey}" name="#{metaKey}" type="text" class="input-large", value="#{postData[metaKey]}">
+                    span.add-on #{metaVal[1]}
+                else
+                  <input id="#{metaKey}" name="#{metaKey}" type="text" class="xinput-large", value="#{postData[metaKey]}">
+
+          .control-group
+            label.control-label(for='detail') 
+              span.required *
+              | 详情
+            .controls
+              .alert.alert-info(style="max-width:360px;")
+               支持Markdown语法，参考<a href="http://www.ituring.com.cn/article/775" target="_blank">Markdown Wiki</a>
+              textarea#wmd-input.input-xlarge(rows='6', name='detail', required='required') #{postData.detail}
+           
+           .control-group
+            label.control-label() 预览
+            .controls
+              #wmd-preview(style="max-width: 600px;")
+
+          .form-actions
+            button.btn.btn-success(type='submit') 发布

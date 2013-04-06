@@ -7,6 +7,8 @@ var configFile = require('../config'),
     crypto = require('crypto'),
     util = require('util');
 
+var dateFormat = require('dateformat');
+
 var db = configFile.database,
     config = configFile.config;
 
@@ -164,8 +166,86 @@ exports.forgot = function(req, res){
 };
 
 exports.profile = function(req, res){
-    res.send("respond with profile page");
+    if (req.method == 'GET') {
+        if (!req.session.user) {
+            return res.redirect('/login');
+        } else {
+            var user = req.session.user,
+                userId = user._id;
+
+            db.collection('post').find({userId: userId}, {sort:[['createTime', -1]]}).toArray(function(err, ads) {
+                if (!err) {
+                    var publicAds = [], deleteAds = [];
+                    ads.forEach(function(item) {
+                        item.createTime = dateFormat(item.createTime, 'mm月dd HH:MM');
+                        if (item.status == 'ok') {
+                            publicAds.push(item);
+                        } else {
+                            deleteAds.push(item);
+                        }
+                    });
+
+                    var renderObj = {
+                        title: '个人中心',
+                        publicAds: publicAds,
+                        deleteAds: deleteAds
+                    };
+
+                    res.render('profilePost', renderObj);
+                } else {
+                    return next();
+                }
+            });
+        }
+        
+    }
 };
+
+exports.password = function(req, res) {
+    if (req.method == 'GET') {
+        res.render('changePwd', {title: '修改密码'});
+    } else {
+        if (!req.session.user) {
+            return res.redirect('/login');
+        } else {
+            var renderObj = {
+                title : '修改密码'
+            }
+
+            var oldPwd = req.body.oldPassword,
+                newPwd = req.body.newPassword,
+                rePwd = req.body.rePassword;
+
+            if (!oldPwd || newPwd !== rePwd) {
+                renderObj.info = '原始密码不能为空，且两次新密码须一致';
+                return res.render('changePwd', renderObj);
+            }
+
+            var user = req.session.user;
+            var truePwd = crypto.createHash('sha1').update(oldPwd).digest('base64');
+
+            if (user.password != truePwd) {
+                renderObj.info = '原始密码错误';
+                return res.render('changePwd', renderObj);
+            }
+
+            var newTruePwd = crypto.createHash('sha1').update(newPwd).digest('base64'),
+                userId = db.ObjectID.createFromHexString(user._id);
+
+            db.collection('user').update({_id: userId}, {$set: {password: newTruePwd}}, function(err, rs) {
+                if (!err && rs) {
+                    user.password = newTruePwd;
+                    renderObj.info = '修改成功';
+                } else {
+                    renderObj.info = '修改失败';
+                }
+
+                return res.render('changePwd', renderObj);
+            });
+        }
+    }
+}
+
 
 exports.showUser = function(req, res){
     res.send("respond with all ads about this user");
