@@ -10,8 +10,7 @@ $(function() {
             $(this).addClass('active');
 
             console.log(id);
-
-            if (id == 'filte-sell') {
+            if (id == 'filter-sell') {
                 $('#ads .sell').show();
                 $('#ads .buy').hide();
             } else if (id == 'filter-buy') {

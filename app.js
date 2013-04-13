@@ -7,7 +7,12 @@ var express = require('express')
   , routes = require('./routes/routes')
   , http = require('http')
   , path = require('path')
-  , config = require('./config').config;
+  , config = require('./config').config
+  , fs = require('fs');
+
+var accessLog = fs.createWriteStream('./logs/access.log', {flags: 'a'})
+  , errorLog = fs.createWriteStream('./logs/error.log', {flags: 'a'});
+    
 
 var app = express();
 
@@ -16,7 +21,7 @@ app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());
-  app.use(express.logger('dev'));
+  app.use(express.logger({stream: accessLog}));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
@@ -35,12 +40,22 @@ app.configure(function(){
 });
 
 app.configure('development', function(){
+  app.use(function(err, req, res, next) {
+    var meta = '[' + new Date() + ']' + req.url + '\n';
+    errorLog.write(meta + err.stack + '\n');
+    next();
+  });
+
   app.use(express.errorHandler());
   app.locals.pretty = true;
 });
 
 routes(app);
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
-});
+var server = module.exports = http.createServer(app);
+
+if (!module.parent) {
+  server.listen(3000, function() {
+    console.log("Express server listening on port 3000");
+  });
+}

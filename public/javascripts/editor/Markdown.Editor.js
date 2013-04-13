@@ -1375,11 +1375,14 @@
         };
 
         function setupButton(button, isEnabled) {
+            return;
 
             var normalYShift = "0px";
             var disabledYShift = "-20px";
             var highlightYShift = "-40px";
             var image = button.getElementsByTagName("span")[0];
+
+
             if (isEnabled) {
                 image.style.backgroundPosition = button.XShift + " " + normalYShift;
                 button.onmouseover = function () {

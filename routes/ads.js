@@ -5,12 +5,11 @@ var configFile = require('../config');
 var db = configFile.database;
 var dateFormat = require('dateformat');
 var _ = require('underscore');
-var pagedown = require("pagedown");
-var safeConverter = pagedown.getSanitizingConverter();
+var md = require("node-markdown").Markdown;
 
 exports.create = function(req, res) {
     if (req.method == 'GET') {
-        /*db.collection('postId').save({name:"post", id:523627970}, function(err, result) {
+/*        db.collection('postId').save({name:"post", id:523627970}, function(err, result) {
 
         });
 
@@ -78,20 +77,24 @@ exports.create = function(req, res) {
     }
 };
 
-exports.showAd = function(req, res) {
+exports.showAd = function(req, res, next) {
     if (req.method =="GET") {
         var postId = req.params.postId,
             secondCatEnglish = req.params.category;
 
         db.collection('post').findOne({postId: postId}, function(err, result) {
-            if (!err || result) {
+            if (!err && result) {
                 var postData = result;
                 postData.isAuthor = false;
-                if (req.session.user && req.session.user._id == postData.userId) {
+
+                console.log(req.session.user);
+                console.log(postData);
+                if (req.session.user && req.session.user._id+"" == postData.userId+"") {
                     postData.isAuthor = true;
                 }
-                postData.detail = safeConverter.makeHtml(postData.detail);
-                console.log(postData.detail);
+
+                postData.createTime = dateFormat(postData.createTime, 'mm月dd HH:MM');
+                
                 db.collection('category').find({
                     '_id': {
                         "$in" : [
@@ -99,7 +102,7 @@ exports.showAd = function(req, res) {
                             db.ObjectID.createFromHexString(postData.secondCatId)
                         ]
                     }}).toArray(function(err, result) {
-                        if (!err || result) {
+                        if (!err && result) {
                             //将json转为obj
                             result[1].metas = JSON.parse(result[1].metas);
 
@@ -113,12 +116,12 @@ exports.showAd = function(req, res) {
                             }).limit(5).toArray(function(err, relateAds) {
                                 if(!err && relateAds) {
                                     var renderObj = {
+                                        md: md,
                                         postData: postData,
                                         firstCategory: result[0],
                                         secondCategory: result[1],
                                         relateAds: relateAds || null
                                     }
-
                                     //用户已经删除的帖子直接采用404
                                     if (postData.status == 'delete') {
                                         res.status(404);
@@ -135,6 +138,7 @@ exports.showAd = function(req, res) {
             } else {
                 //没有这个ID
                 // 404 页面
+                console.log("no this id");
                 return next();
             }
         });
@@ -158,6 +162,23 @@ exports.deleteAd = function(req, res) {
     }
 };
 
+exports.purgeAd = function(req, res) {
+    if (req.method == 'GET') {
+        var postId = req.params.postId;
+        db.collection('post').remove({postId: postId}, function(err, result) {
+            var renderObj = {}
+            if (!err) {
+                renderObj.status = 'success';
+            } else {
+                renderObj.status = 'fail';
+            }
+            renderObj.postId = postId;
+
+            return res.json(renderObj);
+        })
+    }
+}
+
 exports.editAd = function(req, res) {
     var postId = req.params.postId;
     var user = req.session.user;
@@ -165,7 +186,8 @@ exports.editAd = function(req, res) {
         if (user) {
             db.collection('post').findOne({postId: postId}, function(err, result) {
                 var postData = result;
-                if (postData.userId == user._id) {
+                
+                if (postData.userId == user._id+"") {
                     //编辑帖子
                     var secondCatId = postData.secondCatId
                     db.collection('category').findOne({_id: db.ObjectID.createFromHexString(secondCatId)}, function(err, result) {
@@ -177,7 +199,6 @@ exports.editAd = function(req, res) {
                                 postData: postData,
                                 categoryinfo: result
                             }
-                            console.log(renderObj);
                             res.render('edit', renderObj);
                         } 
                     });
@@ -213,7 +234,7 @@ exports.editAd = function(req, res) {
             _.extend(baseObj, req.body);
 
             db.collection('post').findOne({postId: postId}, function(err, result) {
-                if (!err && result && result.userId == user._id) {
+                if (!err && result && result.userId == user._id+"") {
                     var id = result._id,
                         url = result.url;
                     db.collection('post').update({_id: id}, {$set: baseObj}, function(err, rs) {
@@ -232,7 +253,7 @@ exports.editAd = function(req, res) {
     }
 };
 
-exports.listAds = function(req, res) {
+exports.listAds = function(req, res, next) {
     var category = req.params.category;
     db.collection('category').findOne({'categoryEnglish': category}, function(err, result) {
         if (!err && result) {
@@ -250,7 +271,7 @@ exports.listAds = function(req, res) {
             }
 
             query.status = 'ok';
-            db.collection('post').find(query).limit(200).toArray(function(err, ads) {
+            db.collection('post').find(query, {sort:[['createTime', -1]]}).limit(200).toArray(function(err, ads) {
                 if (!err && ads) {
                     ads.forEach(function(item) {
                         item.createTime = dateFormat(item.createTime, 'mm月dd HH:MM');

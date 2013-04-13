@@ -47,7 +47,7 @@ block content
                     p.item-meta #{ad.address}
                     p.item-meta 
                       <a class="btn btn-mini", href="#{ad.url}/edit", style="margin-right: 10px">编辑</a>
-                      <a class="btn btn-mini btn-danger", href="#{ad.url}/delete" >删除</a>
+                      <a class="btn btn-mini btn-danger delete", href="#{ad.url}/delete" >删除</a>
                   .list-date #{ad.createTime}              
           #tab2.tab-pane
             ul.unstyled
@@ -58,7 +58,7 @@ block content
                       a(href='#{ad.url}')
                         | #{ad.title}
                     p.item-meta #{ad.address}
-                    
+                    p.item-meta <a class="btn btn-mini btn-danger purge", href="#{ad.url}/purge">彻底删除</a>
                   .list-date #{ad.createTime}        
 
 

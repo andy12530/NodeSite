@@ -30,7 +30,7 @@ exports.login = function(req, res){
         res.clearCookie('secure', {path: '/'});
         res.render('login', {title: "登录到NodeExchange账户"});
 
-    } else {;
+    } else {
         var email = req.body.email,
             pwd = req.body.password,
             remember = req.body.rememberPwd;
@@ -40,6 +40,7 @@ exports.login = function(req, res){
         db.collection('user').findOne({email: email, password: truePwd}, function(err, result) {
             if (!err && result) {
                 req.session.user = result;
+
                 var cookieHash = crypto.createHash('md5').update(result.phone + result.email).digest('base64');
                 res.cookie('secure', cookieHash, {path: '/', httpOnly: true});
                 res.cookie('email', email, {path: '/', httpOnly: true});
@@ -54,7 +55,7 @@ exports.login = function(req, res){
 };
 
 exports.auth = function(req, res, next) {
-     if (req.session.user) {
+    if (req.session.user) {
         res.locals.userPhone = req.session.user.phone;
         next();
     } else {
@@ -68,11 +69,13 @@ exports.auth = function(req, res, next) {
                             req.session.user = result;
                             res.locals.userPhone = req.session.user.phone;
                             req.session.cookie.expires = new Date(Date.now() + 432000); //auto login in 5 days 
+                            return next();
                         }
                     }
                 });
+        } else {
+           next(); 
         }
-        next();
     }
 };
 

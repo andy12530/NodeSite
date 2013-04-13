@@ -30,7 +30,11 @@ block content
                       a(href='#{ad.url}')
                         | #{ad.title}
                     p.item-meta #{ad.address}
-                    p.item-meta 这是一些meta信息
+                    p.item-meta.jiage
+                    if ad.jiage
+                       jiage #{ad.jiage}
+
+
                   .list-date #{ad.createTime}
       #sidebar.span3
         .filters

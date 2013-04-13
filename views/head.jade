@@ -19,7 +19,7 @@ html(lang='en')
           button.btn(type='submit')
             | 搜索
         .top-item.header-right
-          if typeof userPhone !== 'undefined'
+          if locals.userPhone
             a(href='/user/profile') #{userPhone}
             a.btn.btn-info(href='/logout') logout
           else

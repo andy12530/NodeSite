@@ -237,6 +237,10 @@ li.list-item {
     font-size: 28px;
 }
 
+#ads #address a {
+    margin-left: 10px;
+}
+
 .pic {
     margin: 20px 0;
 }

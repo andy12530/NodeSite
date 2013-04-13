@@ -1,6 +1,6 @@
 $(function() {
     //点击删除按钮后
-    $('#tab1').on('click', '.btn-danger', function(e) {
+    $('#tab1').on('click', '.delete, .purge', function(e) {
         var that = $(this);
         e.preventDefault();
         var url = $(this).attr('href');
@@ -19,5 +19,8 @@ $(function() {
                 $('#alert').show();
             }
         });
-    })
+    });
+
+
+
 })

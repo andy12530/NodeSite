@@ -55,6 +55,7 @@ module.exports = function(app) {
     /* ads manager */
     app.get('/:category/:postId([0-9]+)', user.auth, ads.showAd);
     app.get('/:category/:postId([0-9]+)/delete', user.auth, ads.deleteAd);
+    app.get('/:category/:postId([0-9]+)/purge', user.auth, ads.purgeAd);
 
     app.get('/:category/:postId([0-9]+)/edit', user.auth, ads.editAd);
     app.post('/:category/:postId([0-9]+)/edit', user.auth, ads.editAd);
