@@ -61,6 +61,24 @@
     border-right: 1px solid #ccc;
 }
 
+.sub-item {
+    display: none;
+    position: absolute;
+    border: 1px solid #DDD;
+    z-index: 1000;
+}
+
+#header .sub-item .item {
+    float: none;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+}
+
+#category:hover .sub-item {
+    display: block;
+}
+
+
 .page-header {
     padding-left: 180px;
 }

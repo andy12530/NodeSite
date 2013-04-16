@@ -175,10 +175,10 @@ exports.profile = function(req, res){
         } else {
             var user = req.session.user,
                 userId = user._id;
+            var publicAds = [], deleteAds = [];
 
             db.collection('post').find({userId: userId}, {sort:[['createTime', -1]]}).toArray(function(err, ads) {
                 if (!err) {
-                    var publicAds = [], deleteAds = [];
                     ads.forEach(function(item) {
                         item.createTime = dateFormat(item.createTime, 'mm月dd HH:MM');
                         if (item.status == 'ok') {
@@ -187,13 +187,11 @@ exports.profile = function(req, res){
                             deleteAds.push(item);
                         }
                     });
-
                     var renderObj = {
                         title: '个人中心',
                         publicAds: publicAds,
                         deleteAds: deleteAds
                     };
-
                     res.render('profilePost', renderObj);
                 } else {
                     return next();

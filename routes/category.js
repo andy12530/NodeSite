@@ -6,6 +6,18 @@
 var configFile = require('../config');
 var db = configFile.database;
 
+
+exports.showFirstCategory = function(req, res, next) {
+	db.collection('category').find({deep: 'first'}).toArray(function(err, result) {
+		if (!err && result) {
+			res.locals.firstCategoryInfo = result;
+		} else {
+			res.send('the cateory error');
+		}
+		next();
+	});
+};
+
 exports.addFirstCategory = function(req, res) {
 	if (req.method == 'GET') {
 		res.render('addFirstCategory', {title: '添加一级分类目录'});

@@ -26,7 +26,28 @@
             <ul class="unstyled clearfix">
                 <li><a href="/">首页</a></li>
                 <li><a href="/create">发布信息</a></li>
-                <li><a href="#">分类</a></li>
+<style>
+.sub-item {
+    position: absolute;
+    border: 1px solid #DDD;
+    z-index: 1000;
+}
+
+#header .sub-item .item {
+    float: none;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+}
+
+</style>
+                <li>
+                    <a href="#" style="position: relative;">分类</a>
+                    <ul class="unstyled sub-item">
+                        <li class="item"><a href="">Testfjl</a></li>
+                        <li class="item"><a href="">Testfjl</a></li>
+                        <li class="item"><a href="">Testfjl</a></li>
+                    </ul>
+                </li>
                 <li><a href="/user/profile">个人中心</a></li>
             </ul>
         </div>

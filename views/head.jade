@@ -31,8 +31,12 @@ html(lang='en')
             a(href='/') 首页
           li
             a(href='/create') 发布信息
-          li
+          li#category
             a(href='#') 分类
+            ul.unstyled.sub-item
+              each item in firstCategoryInfo
+                li.item
+                  a(href="/#{item.categoryEnglish}") #{item.category}
           li
             a(href='/user/profile') 个人中心
     .container

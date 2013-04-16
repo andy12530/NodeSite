@@ -10,6 +10,7 @@ var index = require('./index'),
     ajaxHandler = require('./ajaxHandler');
 
 module.exports = function(app) {
+    app.all('*', category.showFirstCategory);
     app.get('/', user.auth, index.index);
 
     /* user manager */

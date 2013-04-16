@@ -87,8 +87,6 @@ exports.showAd = function(req, res, next) {
                 var postData = result;
                 postData.isAuthor = false;
 
-                console.log(req.session.user);
-                console.log(postData);
                 if (req.session.user && req.session.user._id+"" == postData.userId+"") {
                     postData.isAuthor = true;
                 }
