@@ -11,8 +11,23 @@ block script
         e.preventDefault();
         $('#baiduMap').modal('show');
       });
-    })
 
+      $('#like').on('click', 'a', function(e) {
+        e.preventDefault();
+
+        var url = $(this).attr('href');
+        $.ajax({
+          type: "GET",
+          url: url,
+          dataType: "json",
+        }).done(function(data) {
+          if (data.status == "success") {
+            $('#like').html("已收藏");
+          }
+        })
+
+      });
+    })
 block content
     #content.row
       #ads.span9
@@ -35,9 +50,24 @@ block content
               span#viewCount
                 | 浏览次数：
                 span 150
+              
               if postData.isAuthor
                 span#edit
                   a(href='/#{firstCategory.categoryEnglish}/#{postData.postId}/edit') 编辑
+
+                span#like
+                  - var isLike = false
+                  if locals.userInfo.likePostId
+                    each likeId in userInfo.likePostId
+                      if likeId == postData.postId
+                        - isLike = true;
+                  if isLike
+                    | 已收藏
+                  else
+                    a(href='/#{firstCategory.categoryEnglish}/#{postData.postId}/like') 收藏
+
+                
+                  
           .post-body
             .body-basic
               p.basic-item

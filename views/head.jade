@@ -7,6 +7,16 @@ html(lang='en')
     link(rel='stylesheet', href='/static/stylesheets/style.css', media='all')
     script(src='/static/javascripts/jquery-1.9.1.min.js')
     //- script(src='/static/javascripts/bootstrap.js')
+    script
+      $(function() {
+        $('#search').bind("submit", function(e) {
+          e.preventDefault();
+          var q = $('#searchInput').val();
+          if (q) {
+            window.open('http://www.google.com/search?q=site:'+ document.location.host +'%20' + q, "_blank");
+          }
+        });
+      });
     block script
   body
     #header.header
@@ -14,13 +24,13 @@ html(lang='en')
         a(href='/')
           img(src='/static/images/logo.png', alt='NodeExchange', width='180px;')
       .top.clearfix
-        form.top-item.header-search(action='')
-          input#search(type='text', name='text', placeholder='请输入关键字', style='width: 350px; margin-top: 10px;')
+        form#search.top-item.header-search()
+          input#searchInput(type='text', name='text', placeholder='请输入关键字', style='width: 350px; margin-top: 10px;')
           button.btn(type='submit')
             | 搜索
         .top-item.header-right
-          if locals.userPhone
-            a(href='/user/profile') #{userPhone}
+          if locals.userInfo
+            a(href='/user/profile') #{userInfo.phone}
             a.btn.btn-info(href='/logout') logout
           else
             a.btn.btn-success(href='/register') 注册

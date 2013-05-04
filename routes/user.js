@@ -14,7 +14,7 @@ var db = configFile.database,
 
 
 exports.logout = function(req, res) {
-    delete res.locals.userPhone;
+    delete res.locals.userInfo;
     req.session.destroy();
     res.clearCookie('email', {path:'/' });
     res.clearCookie('secure', {path: '/'});
@@ -24,7 +24,7 @@ exports.logout = function(req, res) {
 
 exports.login = function(req, res){
     if (req.method == 'GET')  {
-        delete res.locals.userPhone;
+        delete res.locals.userInfo;
         req.session.destroy();
         res.clearCookie('email', {path:'/' });
         res.clearCookie('secure', {path: '/'});
@@ -56,7 +56,7 @@ exports.login = function(req, res){
 
 exports.auth = function(req, res, next) {
     if (req.session.user) {
-        res.locals.userPhone = req.session.user.phone;
+        res.locals.userInfo = req.session.user;
         next();
     } else {
         if (req.cookies.email && req.cookies.secure) {
@@ -67,7 +67,7 @@ exports.auth = function(req, res, next) {
                         var trueHashCookie = crypto.createHash('md5').update(result.phone + result.email).digest('base64');
                         if (trueHashCookie == hashCookie) {
                             req.session.user = result;
-                            res.locals.userPhone = req.session.user.phone;
+                            res.locals.userInfo = req.session.user;
                             req.session.cookie.expires = new Date(Date.now() + 432000); //auto login in 5 days 
                             return next();
                         }
@@ -202,6 +202,31 @@ exports.profile = function(req, res){
     }
 };
 
+exports.likeAds = function(req, res) {
+    if (!req.session.user) {
+        return res.redirect('/login');
+    } else {
+        var user = req.session.user;
+        var renderObj = {
+            title: '收藏帖子'
+        }
+
+        if(user.likePostId) {
+            var likeAdId = user.likePostId;
+             db.collection('post').find({'postId': {$in: likeAdId}}).toArray(function(err ,rs) {
+                if (!err && rs) {
+                    renderObj.postData = rs;
+                } 
+                res.render('likeAds', renderObj);
+             });
+        } else {
+            res.render('likeAds', renderObj);
+        }
+    }
+};
+
+
+
 exports.password = function(req, res) {
     if (req.method == 'GET') {
         res.render('changePwd', {title: '修改密码'});
@@ -245,8 +270,7 @@ exports.password = function(req, res) {
             });
         }
     }
-}
-
+};
 
 exports.showUser = function(req, res){
     res.send("respond with all ads about this user");

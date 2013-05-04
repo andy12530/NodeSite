@@ -26,6 +26,8 @@ module.exports = function(app) {
     app.post('/forgot', user.forgot);
 
     app.get('/user/profile', user.auth, user.profile);
+    app.get('/user/likeAds', user.auth, user.likeAds);
+
     app.get('/user/password', user.auth, user.password);
     app.post('/user/password', user.auth, user.password);
 
@@ -60,6 +62,9 @@ module.exports = function(app) {
 
     app.get('/:category/:postId([0-9]+)/edit', user.auth, ads.editAd);
     app.post('/:category/:postId([0-9]+)/edit', user.auth, ads.editAd);
+
+    app.get('/:category/:postId([0-9]+)/like', user.auth, ajaxHandler.likeAd);
+    app.get('/:category/:postId([0-9]+)/unlike', user.auth, ajaxHandler.unlikeAd);
 
     /* other page show 404 */
     app.get('*', index.notFound);

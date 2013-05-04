@@ -124,7 +124,6 @@ exports.showAd = function(req, res, next) {
                                     if (postData.status == 'delete') {
                                         res.status(404);
                                     }
-
                                     res.render('ad', renderObj);
                                 }
                             });
@@ -296,3 +295,5 @@ exports.listAds = function(req, res, next) {
         }
     });
 };
+
+

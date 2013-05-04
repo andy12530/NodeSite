@@ -219,6 +219,10 @@ li.list-item {
 .list-content .item-meta {
     color: #888;
 }
+
+.list-right {
+    float: right;
+}
 .list-date {
     float: right;
     margin-top: 20px;
@@ -303,3 +307,24 @@ li.list-item {
     background-color: #2A303F;
     min-height: 240px;
 }
+
+/* the landing page*/
+#glist{margin-left:-20px;_margin-left:-40px;}
+.glist a{color:#333;}
+.glist{margin-left:12px;width:180px;float:left;}
+.glist-title{padding:3px 5px;border-bottom:2px solid #82C727;background:#f7f7f7;}
+.glist-title h3{display:inline-block;*display:inline;*zoom:1;line-height:1.5;font-weight:800; margin:2px 0; font-size: 16px;}
+.glist-title h3 a{color:#08c;}
+.glist-title a:hover{color:#888;text-decoration:none;}
+.glist-title cite{font-size:12px;color:#888;}
+.glist-section{
+padding-left:6px;
+_position:relative;
+}
+.glist-section-border{border-bottom:1px dotted #cfcfcf;padding-bottom:5px;margin:0 0 5px;_zoom:1;}
+.glist-section-last{margin:0 0 10px;}
+.glist-section a{display:inline-block;white-space:nowrap;_display:inline-block;_width:80px;min-width:80px;padding:5px 0;}
+.glist-section .glist-section-block{display:block;}
+.glist-section .glist-section-inlineblock{display:inline-block;_width:80px;_zoom:1;min-width:80px;}
+.glist-section-random a{width:auto;min-width:0;margin-right:10px;}
+#glist hr {margin:5px 0;}
