@@ -9,7 +9,19 @@ block script
 
 block content
     #content.row
-      .span8
+      #aside.span3
+        ul.nav.nav-list
+          li.nav-header 类目管理
+          li.active
+            a(href='/category/addFirst') 添加一级类目
+          li
+            a(href='/category/addSecond') 添加二级类目
+          li.divider
+          li.nav-header 帖子管理
+          li
+            a(href='/manage/ads') 帖子管理
+
+      .span9
         .page-header
           h3.title 添加一级类目
         form.form-horizontal(method='post', action='/category/addFirst')

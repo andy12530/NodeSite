@@ -5,16 +5,29 @@
 
 var configFile = require('../config');
 var db = configFile.database;
-
+var memcache = configFile.memcache;
+memcache.connect();
 
 exports.showFirstCategory = function(req, res, next) {
-	db.collection('category').find({deep: 'first'}).toArray(function(err, result) {
+	memcache.get("firstCategoryInfo", function(err ,result) {
 		if (!err && result) {
-			res.locals.firstCategoryInfo = result;
+			console.log("cache");
+			res.locals.firstCategoryInfo = JSON.parse(result);
+			next();
 		} else {
-			res.send('the cateory error');
+			db.collection('category').find({deep: 'first'}).toArray(function(err, result) {
+				if (!err && result) {
+					var cacheRs = JSON.stringify(result);
+					memcache.set("firstCategoryInfo", cacheRs, function() {
+						console.log("set cache");
+					}, 3600 * 24);
+					res.locals.firstCategoryInfo = result;
+				} else {
+					res.send('the cateory error');
+				}
+				next();
+			});
 		}
-		next();
 	});
 };
 

@@ -2,15 +2,29 @@
 
 var configFile = require('../config');
 var db = configFile.database;
+var memcache = configFile.memcache;
+memcache.connect();
 
 // show the second category
 exports.secondCat = function(req, res) {
     var firstCatId = req.query.firstCatId;
-    db.collection('category').find({firstCatId: firstCatId}).toArray(function(err, result) {
-        if (err || !result) {
-            result = null;
+    memcache.get("secondCat" + firstCatId, function(err ,result) {
+        console.log(result);
+        if (!err && result) {
+            result = JSON.parse(result);
+            return res.json(result);
+        } else {
+            db.collection('category').find({firstCatId: firstCatId}).toArray(function(err, result) {
+                if (err || !result) {
+                    result = null;
+                }
+                var cacheRs = JSON.stringify(result);
+                memcache.set("secondCat" + firstCatId, cacheRs, function() {
+                    console.log("set cache");
+                }, 3600);
+                return res.json(result);
+            });  
         }
-        return res.json(result);
     });
 };
 

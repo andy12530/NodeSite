@@ -1,0 +1,52 @@
+extend head
+
+block title
+    title #{title}
+
+block script
+  script(src='/static/javascripts/json2.js')
+
+block content
+    #content.row
+      #aside.span3
+        ul.nav.nav-list
+          li.nav-header 类目管理
+          li
+            a(href='/category/addFirst') 添加一级类目
+          li
+            a(href='/category/addSecond') 添加二级类目
+          li.divider
+          li.nav-header 帖子管理
+          li.active
+            a(href='/manage/ads') 帖子管理
+
+      .span9
+          .page-header
+            h3.title 删除帖子
+          form.form-horizontal(method='post', action='/manage/ads')
+            .control-group
+              label.control-label(for='postId') 帖子ID
+              .controls
+                input#postId(type='text', name='postId', placeholder='帖子ID')
+                button.btn.btn-success(type='submit') 搜索
+          if locals.noad
+            div(style="margin-left: 120px;")
+              | 没有找到与此ID相匹配的帖子
+
+          if locals.ad
+            ul.unstyled
+              style
+                li.list-item {
+                  padding: 5px 10px;
+                  border-bottom: 1px solid #EEE;
+                }
+              li(class="list-item clearfix")
+                .list-content
+                  p.item-title
+                    a(href='#{ad.url}')
+                      | #{ad.title}
+                  p.item-meta #{ad.address}
+                  p.item-meta 
+                    <a class="btn btn-mini", href="#{ad.url}/edit", style="margin-right: 10px">编辑</a>
+                    <a class="btn btn-mini btn-danger delete", href="#{ad.url}/delete" >删除</a>
+                .list-date #{ad.createTime} 

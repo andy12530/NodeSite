@@ -6,6 +6,8 @@ var db = configFile.database;
 var dateFormat = require('dateformat');
 var _ = require('underscore');
 var md = require("node-markdown").Markdown;
+var memcache = configFile.memcache;
+memcache.connect();
 
 exports.create = function(req, res) {
     if (req.method == 'GET') {
@@ -17,10 +19,22 @@ exports.create = function(req, res) {
             console.log(result);
         })*/
         
-        db.collection('category').find({deep: 'first'}).toArray(function(err, result) {
-            if(!err && result) {
+        memcache.get("firstCategoryInfo", function(err ,result) {
+            if (!err && result) {
+                console.log("cache");
+                result = JSON.parse(result);
                 res.render('create', {title: '发布新信息', result: result});
-            } 
+            } else {
+                db.collection('category').find({deep: 'first'}).toArray(function(err, result) {
+                    if(!err && result) {
+                        var cacheRs = JSON.stringify(result);
+                        memcache.set("firstCategoryInfo", cacheRs, function() {
+                            console.log("set cache");
+                        }, 3600 * 24);
+                        res.render('create', {title: '发布新信息', result: result});
+                    } 
+                });
+            }
         });
     } else {
         if (! req.session.user) {

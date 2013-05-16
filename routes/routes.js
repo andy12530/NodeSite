@@ -7,6 +7,7 @@ var index = require('./index'),
     user = require('./user'),
     category = require('./category'),
     ads = require('./ads'),
+    manage = require('./manage'),
     ajaxHandler = require('./ajaxHandler');
 
 module.exports = function(app) {
@@ -40,12 +41,17 @@ module.exports = function(app) {
 
     
     /* category manager */
-    app.get('/category/addFirst', category.addFirstCategory);
-    app.post('/category/addFirst', category.addFirstCategory);
+    app.get('/manage', user.auth, category.addFirstCategory);
+    app.get('/manage/ads', user.auth, manage.showAd);
+    app.post('/manage/ads', user.auth, manage.showAd);
+
+
+    app.get('/category/addFirst', user.auth, category.addFirstCategory);
+    app.post('/category/addFirst', user.auth, category.addFirstCategory);
 
     // category更多的是在修改二级类目
-    app.get('/category/addSecond', category.addCategory);
-    app.post('/category/addSecond', category.addCategory);
+    app.get('/category/addSecond', user.auth, category.addCategory);
+    app.post('/category/addSecond', user.auth, category.addCategory);
 
     app.get('/category/edit', category.editCategory);
     app.get('/category/delete', category.delCategory);   
