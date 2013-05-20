@@ -1,0 +1,81 @@
+.chat-window {
+    position: fixed;
+    bottom: 5px;
+    right: 15px;
+    min-width: 140px;
+    width: 320px;
+    height: 330px;
+    border: 1px solid #666;
+
+    -webkit-box-shadow: 0 0 2px #888;
+    box-shadow: 0 0 2px #888;
+    background: white;
+    margin-left: -1px;
+    overflow: hidden;
+}
+
+.chat-window > header {
+    background-position: 0 0;
+    position: relative;
+    border-bottom: 1px solid #BEBEBE;
+    height: 25px;
+}
+
+.chat-window section, .chat-window .dialogs {
+    height: 195px;
+}
+
+header .close {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 18px;
+    color: black;
+    text-shadow: 0 1px 0 white;
+    opacity: 0.2;
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+.chat-window .dialog {
+    width: 280px;
+    float: right;
+}
+
+.chat-window .dialogs {
+    -ms-overflow-y: auto;
+    overflow-y: auto;
+    background-color: white;
+}
+
+form.editor {
+    margin: 0;
+}
+
+form.editor textarea {
+    height: 60px;
+    border: none;
+    width: 100%;
+
+    -ms-overflow-y: auto;
+    overflow-y: auto;
+    display: block;
+    border-top: 1px solid #DDD;
+    border-bottom: 1px solid #DDD;
+}
+
+.wp-chat-send-box {
+    padding: 0px 5px 5px;
+    border-bottom: 1px solid #D8D8D8;
+    float: right;
+}
+
+.wp-chat-send-box a {
+    border: 1px solid #DDD;
+    border-radius: 5px;
+    background-color: #369;
+    padding: 5px 10px;
+    color: white;
+    text-decoration: none;
+}

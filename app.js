@@ -2,6 +2,9 @@
 /**
  * Module dependencies.
  */
+var connect = require('connect'),
+  cookie = require('cookie'),
+  sessionStore = new connect.middleware.session.MemoryStore();
 
 var express = require('express')
   , routes = require('./routes/routes')
@@ -10,11 +13,10 @@ var express = require('express')
   , config = require('./config').config
   , fs = require('fs');
 
-var accessLog = fs.createWriteStream('./logs/access.log', {flags: 'a'})
-  , errorLog = fs.createWriteStream('./logs/error.log', {flags: 'a'});
-    
-
 var app = express();
+
+var accessLog = fs.createWriteStream('./logs/access.log', {flags: 'a'})
+  , errorLog = fs.createWriteStream('./logs/error.log', {flags: 'a'});    
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -26,6 +28,7 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(express.cookieParser());
   app.use(express.session({
+    store: sessionStore,
     secret: config.session_secret
   }));
 
@@ -59,3 +62,34 @@ if (!module.parent) {
     console.log("Express server listening on port 3000");
   });
 }
+
+var io = require('socket.io').listen(server);
+// sessionSockets = new SessionSockets(io, sessionStore, express.cookieParser);
+
+var clients = {};
+
+
+io.sockets.on('connection', function (socket) {
+  var cookie_string = socket.handshake.headers.cookie,
+      parsed_cookies = cookie.parse(cookie_string, config.session_secret);
+  
+  var myChatId = "default"+new Date().getTime()+Math.floor(Math.random()*1000+1);
+  var nickName = "陌生人";
+
+  if(parsed_cookies['myId']) {
+    myChatId = parsed_cookies['myId'];
+    nickName = parsed_cookies['email'].split('@')[0];
+  }
+
+  clients[myChatId] = socket;
+
+  socket.on('private message', function(to, msg) {
+    if (clients[to]) {
+      // from  && data;
+      clients[to].emit('private message', myChatId, nickName, msg);
+    } else {
+      socket.emit('disconnect');
+    }
+  });
+
+});

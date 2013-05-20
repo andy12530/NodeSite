@@ -44,7 +44,7 @@ exports.login = function(req, res){
                 var cookieHash = crypto.createHash('md5').update(result.phone + result.email).digest('base64');
                 res.cookie('secure', cookieHash, {path: '/', httpOnly: true});
                 res.cookie('email', email, {path: '/', httpOnly: true});
-                
+                res.cookie('myId', result._id+"", {path: '/', httpOnly: true});
                 req.session.cookie.expires = new Date(Date.now() + 432000); //auto login in 5 days 
                 return res.redirect("/");
             } else {
@@ -128,6 +128,7 @@ exports.register = function(req, res){
                                 req.session.user = user[0];
                                 res.cookie('secure', cookieHash, {path: '/', httpOnly: true});
                                 res.cookie('email', email, {path: '/', httpOnly: true});
+                                res.cookie('myId', result._id+"", {path: '/', httpOnly: true});
                                 req.session.cookie.expires = new Date(Date.now() + 432000);
 
                                 return res.redirect('/');

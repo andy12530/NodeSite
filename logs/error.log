@@ -1,0 +1,60 @@
+[Sun May 19 2013 23:16:40 GMT+0800 (CST)]/
+Error: `secret` option required for sessions
+    at Object.session [as handle] (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/session.js:228:24)
+    at next (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/proto.js:199:15)
+    at Object.cookieParser [as handle] (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/cookieParser.js:60:5)
+    at next (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/proto.js:199:15)
+    at Object.methodOverride [as handle] (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/methodOverride.js:37:5)
+    at next (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/proto.js:199:15)
+    at multipart (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/multipart.js:64:37)
+    at /home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/bodyParser.js:57:9
+    at urlencoded (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/urlencoded.js:51:37)
+    at /home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/bodyParser.js:55:7
+[Sun May 19 2013 23:16:52 GMT+0800 (CST)]/
+Error: `secret` option required for sessions
+    at Object.session [as handle] (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/session.js:228:24)
+    at next (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/proto.js:199:15)
+    at Object.cookieParser [as handle] (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/cookieParser.js:60:5)
+    at next (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/proto.js:199:15)
+    at Object.methodOverride [as handle] (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/methodOverride.js:37:5)
+    at next (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/proto.js:199:15)
+    at multipart (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/multipart.js:64:37)
+    at /home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/bodyParser.js:57:9
+    at urlencoded (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/urlencoded.js:51:37)
+    at /home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/bodyParser.js:55:7
+[Sun May 19 2013 23:18:05 GMT+0800 (CST)]/
+Error: `secret` option required for sessions
+    at Object.session [as handle] (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/session.js:228:24)
+    at next (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/proto.js:199:15)
+    at Object.cookieParser [as handle] (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/cookieParser.js:60:5)
+    at next (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/proto.js:199:15)
+    at Object.methodOverride [as handle] (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/methodOverride.js:37:5)
+    at next (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/proto.js:199:15)
+    at multipart (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/multipart.js:64:37)
+    at /home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/bodyParser.js:57:9
+    at urlencoded (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/urlencoded.js:51:37)
+    at /home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/bodyParser.js:55:7
+[Sun May 19 2013 23:18:48 GMT+0800 (CST)]/
+Error: `secret` option required for sessions
+    at Object.session [as handle] (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/session.js:228:24)
+    at next (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/proto.js:199:15)
+    at Object.cookieParser [as handle] (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/cookieParser.js:60:5)
+    at next (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/proto.js:199:15)
+    at Object.methodOverride [as handle] (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/methodOverride.js:37:5)
+    at next (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/proto.js:199:15)
+    at multipart (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/multipart.js:64:37)
+    at /home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/bodyParser.js:57:9
+    at urlencoded (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/urlencoded.js:51:37)
+    at /home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/bodyParser.js:55:7
+[Sun May 19 2013 23:18:56 GMT+0800 (CST)]/
+Error: `secret` option required for sessions
+    at Object.session [as handle] (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/session.js:228:24)
+    at next (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/proto.js:199:15)
+    at Object.cookieParser [as handle] (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/cookieParser.js:60:5)
+    at next (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/proto.js:199:15)
+    at Object.methodOverride [as handle] (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/methodOverride.js:37:5)
+    at next (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/proto.js:199:15)
+    at multipart (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/multipart.js:64:37)
+    at /home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/bodyParser.js:57:9
+    at urlencoded (/home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/urlencoded.js:51:37)
+    at /home/andy/code/NodeSite/node_modules/express/node_modules/connect/lib/middleware/bodyParser.js:55:7

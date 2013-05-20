@@ -73,6 +73,8 @@ block content
               p.basic-item
                 | 发布人：
                 span#contact #{postData.contact}
+                  a(href="#") chat
+                  input#chatId(type="hidden", value="#{postData.userId}")
               p.basic-item
                 | 地点：
                 span#address #{postData.address}
@@ -106,4 +108,3 @@ block content
             each relateAd in relateAds
               .post-item
                 a(href='#{relateAd.url}') #{relateAd.title}
-

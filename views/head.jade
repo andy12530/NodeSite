@@ -5,8 +5,11 @@ html(lang='en')
     block title
     link(rel='stylesheet', href='/static/stylesheets/bootstrap.css', media='all')
     link(rel='stylesheet', href='/static/stylesheets/style.css', media='all')
+    link(rel='stylesheet', href='/static/stylesheets/chat.css', media='all')
+    block css
     script(src='/static/javascripts/jquery-1.9.1.min.js')
-    //- script(src='/static/javascripts/bootstrap.js')
+    script(src='/socket.io/socket.io.js')
+    script(src='/static/javascripts/chat.js')
     script
       $(function() {
         $('#search').bind("submit", function(e) {
@@ -17,6 +20,7 @@ html(lang='en')
           }
         });
       });
+
     block script
   body
     #header.header
@@ -53,3 +57,16 @@ html(lang='en')
       block content
       
       block footer
+        if locals.userInfo
+          input#myId(type="hidden", value="#{userInfo._id}");
+        article#chat.chat-window(style='width: 280px; display: none;')
+          header
+            a.close(title='关闭') x
+          section
+            .dialog
+              article.dialogs
+          footer.wp-edit-box
+            form.editor(method='post', action='')
+              textarea(eicons_obj_id='1')
+              .wp-chat-send-box.clearfix
+                a.wp-chat-send(href='#nogo') 发送
